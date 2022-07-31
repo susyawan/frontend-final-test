@@ -27,3 +27,20 @@
 .line-up:after {
   margin-left: 10px;
 }
+
+.register:hover {
+  color: slateblue !important;
+}
+
+.borderless {
+  border: none !important;
+}
+
+.popper-visible {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.popper-none {
+  z-index: 999;
+}

@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import '../components/css/styles.css'
+import "../components/css/styles.css";
+import { usePopper } from "react-popper";
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  const [referenceElement, setReferenceElement] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const [arrowElement, setArrowElement] = useState(null);
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
+  });
+
+  const handlePopperLogin = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <nav className="container-fluid bg-light shadow">
@@ -42,7 +55,7 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a href="/" className="nav-link">
+                <a href="/contact" className="nav-link">
                   Contact
                 </a>
               </li>
@@ -50,20 +63,62 @@ const Navbar = () => {
           </div>
 
           <div>
-            <ul className="navbar-nav flex-row">
+            <ul className="navbar-nav flex-row align-items-center">
+              <li className="nav-item mx-2 mx-lg-0">
+                <a href="/menu" className="nav-link">
+                  Menu
+                </a>
+              </li>
               <li className="nav-item mx-2 mx-lg-0">
                 <a href="/" className="nav-link">
                   Order
                 </a>
               </li>
               <li className="nav-item mx-2 mx-lg-0">
-                <a href="/" className="nav-link">
-                  Username
-                </a>
+                {/* <a href="/login" className="nav-link"> */}
+                <button
+                  className="btn btn-light fw-bold nav-link"
+                  ref={setReferenceElement}
+                  onClick={handlePopperLogin}
+                  data-bs-toggle={handlePopperLogin}
+                >
+                  Log In
+                </button>
+                <div
+                  className={`${isOpen ? "popper-visible" : "popper-none"}`}
+                  ref={setPopperElement} style={styles.popper} {...attributes.popper}
+                >
+                  <div className="d-flex flex-column text-center p-3 bg-light rounded-4 mt-2 shadow-lg">
+                    <input
+                      className="form-control my-1"
+                      type="text"
+                      name=""
+                      id=""
+                      placeholder="Username"
+                    />
+                    <input
+                      className="form-control my-1"
+                      type="password"
+                      name=""
+                      id=""
+                      placeholder="Password"
+                    />
+                    <button className="btn btn-primary my-1 fw-bold">
+                      Log In
+                    </button>
+                    <a href="/" className="text-decoration-none my-1">
+                      Forgotten Password?
+                    </a>
+                  </div>
+                  <div ref={setArrowElement} style={styles.arrow} />
+                </div>
+                {/* </a> */}
               </li>
               <li className="nav-item mx-2 mx-lg-0">
-                <a href="/" className="nav-link">
-                  Logout
+                <a href="/register" className="nav-link">
+                  <button className="btn btn-info text-white fw-bold register">
+                    Register
+                  </button>
                 </a>
               </li>
             </ul>
@@ -75,104 +130,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-// import { userContext } from "../App";
-
-// const Navbar = () => {
-//   const { state, dispatch } = useContext(userContext);
-//   if (state) {
-//     return (
-//       <>
-//         <nav>
-//           <div className="container">
-//             <button>X</button>
-//             <div className="collapse navbar-collapse justify-content-between">
-//               <ul>
-//                 <li>
-//                   <a href="/">X</a>
-//                 </li>
-//                 <div>
-//                   <li>
-//                     <NavLink>
-//                       Home <span>(current)</span>
-//                     </NavLink>
-//                   </li>
-//                   <li>
-//                     <NavLink>About</NavLink>
-//                   </li>
-//                   <li>
-//                     <NavLink>Contact</NavLink>
-//                   </li>
-//                 </div>
-//               </ul>
-
-//               <NavLink>Deliveryess</NavLink>
-
-//               <ul>
-//                 <div>
-//                   <li>
-//                     <NavLink>Order</NavLink>
-//                   </li>
-//                   <li>
-//                     <NavLink>X{localStorage.getItem("username")}</NavLink>
-//                   </li>
-//                   <li>
-//                     <NavLink>Logout</NavLink>
-//                   </li>
-//                 </div>
-//                 <li>
-//                   <a href="/">X</a>
-//                 </li>
-//               </ul>
-//             </div>
-//           </div>
-//         </nav>
-//       </>
-//     );
-//   } else {
-//     return (
-//       <>
-//         <nav className="navbar navbar-expand-lg">
-//           <div className="container">
-//             <button>X</button>
-//             <div className="collapse navbar-collapse justify-content-between">
-//               <ul>
-//                 <li>
-//                   <a href="/">X</a>
-//                 </li>
-//                 <div>
-//                   <li>
-//                     <NavLink>
-//                       Home <span>(current)</span>
-//                     </NavLink>
-//                   </li>
-//                   <li>
-//                     <NavLink>About</NavLink>
-//                   </li>
-//                   <li>
-//                     <NavLink>Contact</NavLink>
-//                   </li>
-//                 </div>
-//               </ul>
-
-//               <NavLink>Deliveryess</NavLink>
-//               <ul>
-//                 <div>
-//                   <li>
-//                     <NavLink>Order</NavLink>
-//                   </li>
-//                   <li>
-//                     <NavLink>Sign In</NavLink>
-//                   </li>
-//                 </div>
-//                 <li>
-//                   <a href="/">X</a>
-//                 </li>
-//               </ul>
-//             </div>
-//           </div>
-//         </nav>
-//       </>
-//     );
-//   }
-// };

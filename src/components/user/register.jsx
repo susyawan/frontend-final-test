@@ -10,9 +10,9 @@ const Register = () => {
           <div className="row row-cols-auto">
             <div className="col-6 d-none d-lg-block col-lg-6 d-flex justify-content-center align-items-center">
               <img
-                src="https://img.freepik.com/free-vector/tiny-people-testing-quality-assurance-software-isolated-flat-vector-illustration-cartoon-character-fixing-bugs-hardware-device-application-test-it-service-concept_74855-10172.jpg?w=826&t=st=1659183468~exp=1659184068~hmac=072de3a00a95872be19e4b154f333ceba4c665b2af0824d9c0ec96e3c6cacb5c"
+                src="https://graphic-mama.s3.eu-west-1.amazonaws.com/resources/toons/food-and-kitchen/9234/siteBigImages/162-item-27%28items%29.jpg?response-content-disposition=&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIQKMABPAE5PPBT2A%2F20220731%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20220731T015556Z&X-Amz-SignedHeaders=host&X-Amz-Expires=43200&X-Amz-Signature=4ff982968a02f68248eb1e941e6f5104af2b5e554e0e631cfb6f4160f229baa9"
                 alt="ilustration-register"
-                className="w-100 end-100"
+                className="w-75 end-100"
               />
             </div>
             <div className="my-5 my-lg-0 col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">

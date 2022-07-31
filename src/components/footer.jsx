@@ -22,18 +22,18 @@ const Footer = () => {
                     quia ipsam, iure optio. Aperiam, obcaecati?
                   </p>
                 </div>
-                <ul className="list-group list-group-horizontal">
-                  <li className="list-group-item">
+                <ul className="list-group list-group-horizontal bg-light">
+                  <li className="list-group-item borderless bg-light">
                     <a href="/" className="text-black">
                       <BsFacebook />
                     </a>
                   </li>
-                  <li className="list-group-item">
+                  <li className="list-group-item borderless bg-light">
                     <a href="/" className="text-black">
                       <BsInstagram />
                     </a>
                   </li>
-                  <li className="list-group-item">
+                  <li className="list-group-item borderless bg-light">
                     <a href="/" className="text-black">
                       <BsTwitter />
                     </a>
