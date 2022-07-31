@@ -1,0 +1,29 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.offcanvas.offcanvas-start {
+  width: 250px !important;
+}
+
+.line-up {
+  font-weight: bold;
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+}
+.line-up:before,
+.line-up:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid;
+  margin: auto;
+}
+.line-up:before {
+  margin-right: 10px;
+}
+.line-up:after {
+  margin-left: 10px;
+}
