@@ -12,6 +12,7 @@ import Header from "./components/home/header";
 import ListMenu from "./components/home/listmenu";
 import FavoriteMenu from "./components/home/favoritesmenu";
 import NotFound from "./components/notfound";
+import Orders from "./components/orders/orders";
 
 const HomePage = () => {
   return (
@@ -54,6 +55,16 @@ const RegisterPage = () => {
   );
 };
 
+const OrdersPage = () => {
+  return (
+    <>
+      <Navbar />
+      <Orders />
+      <Footer />
+    </>
+  );
+};
+
 const ContactPage = () => {
   return (
     <>
@@ -62,7 +73,7 @@ const ContactPage = () => {
       <Footer />
     </>
   );
-}
+};
 
 const NotFoundPage = () => {
   return (
@@ -83,6 +94,7 @@ const App = () => {
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

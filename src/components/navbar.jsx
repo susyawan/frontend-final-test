@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../components/css/styles.css";
-import { usePopper } from "react-popper";
+// import { usePopper } from "react-popper";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [referenceElement, setReferenceElement] = useState(null);
-  const [popperElement, setPopperElement] = useState(null);
-  const [arrowElement, setArrowElement] = useState(null);
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
-  });
+  // const [referenceElement, setReferenceElement] = useState(null);
+  // const [popperElement, setPopperElement] = useState(null);
+  // const [arrowElement, setArrowElement] = useState(null);
+  // const { styles, attributes } = usePopper(referenceElement, popperElement, {
+  //   modifiers: [{ name: "arrow", options: { element: arrowElement } }],
+  // });
 
   const handlePopperLogin = () => {
     setIsOpen(!isOpen);
@@ -61,7 +61,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-
+          <span className="d-none d-lg-block fs-4 text-muted pb-1">|</span>
           <div>
             <ul className="navbar-nav flex-row align-items-center">
               <li className="nav-item mx-2 mx-lg-0">
@@ -70,23 +70,25 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="nav-item mx-2 mx-lg-0">
-                <a href="/" className="nav-link">
+                <a href="/orders" className="nav-link">
                   Order
                 </a>
               </li>
               <li className="nav-item mx-2 mx-lg-0">
                 {/* <a href="/login" className="nav-link"> */}
                 <button
-                  className="btn btn-light fw-bold nav-link"
-                  ref={setReferenceElement}
+                  className="btn btn-light fw-bold nav-link px-2"
+                  // ref={setReferenceElement}
                   onClick={handlePopperLogin}
-                  data-bs-toggle={handlePopperLogin}
                 >
                   Log In
                 </button>
                 <div
-                  className={`${isOpen ? "popper-visible" : "popper-none"}`}
-                  ref={setPopperElement} style={styles.popper} {...attributes.popper}
+                  className={`${isOpen ? "popper-visible" : "popper-none"} position-absolute`}
+                  // ref={setPopperElement}
+                  // style={styles.popper}
+                  // {...attributes.popper}
+                  style={{marginLeft:'-100px'}}
                 >
                   <div className="d-flex flex-column text-center p-3 bg-light rounded-4 mt-2 shadow-lg">
                     <input
@@ -110,13 +112,13 @@ const Navbar = () => {
                       Forgotten Password?
                     </a>
                   </div>
-                  <div ref={setArrowElement} style={styles.arrow} />
+                  {/* <div ref={setArrowElement} style={styles.arrow} /> */}
                 </div>
                 {/* </a> */}
               </li>
               <li className="nav-item mx-2 mx-lg-0">
                 <a href="/register" className="nav-link">
-                  <button className="btn btn-info text-white fw-bold register">
+                  <button className="btn btn-info text-white fw-bold register py-2">
                     Register
                   </button>
                 </a>
