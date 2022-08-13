@@ -1,20 +1,70 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../components/css/styles.css";
-// import { usePopper } from "react-popper";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import request from "../helpers/requests";
+import { Input } from "reactstrap";
+import { decodeToken } from "react-jwt";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  // const [referenceElement, setReferenceElement] = useState(null);
-  // const [popperElement, setPopperElement] = useState(null);
-  // const [arrowElement, setArrowElement] = useState(null);
-  // const { styles, attributes } = usePopper(referenceElement, popperElement, {
-  //   modifiers: [{ name: "arrow", options: { element: arrowElement } }],
-  // });
+  const dataStore = sessionStorage.getItem("token");
+  const dataAdmin = decodeToken(dataStore);
 
   const handlePopperLogin = () => {
     setIsOpen(!isOpen);
   };
+
+  const validationLogin = yup.object().shape({
+    username: yup.string().required(),
+    password: yup.string().required(),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: validationLogin,
+    onSubmit: () => handleLogin(),
+  });
+
+  async function handleLogin() {
+    const respawn = await request
+      .post("/user/login", formik.values)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => console.log(err));
+
+    const goken = decodeToken(respawn.token);
+
+    if (respawn.message === "user not found") {
+      alert("user not found, please register");
+    } else if (respawn.message === "password error") {
+      alert("wrong username or password");
+    } else if (respawn.message === "success" && goken.admin === "1") {
+      sessionStorage.setItem("token", respawn.token);
+      window.location.href = "/admin";
+    } else if (respawn.message === "success" && !goken.admin) {
+      sessionStorage.setItem("token", respawn.token);
+      window.location.href = "/";
+    }
+  }
+
+  function checkLogin() {
+    if (formik.values.username === "" || formik.values.password === "") {
+      alert("Please enter your username or password.");
+    } else {
+      formik.handleSubmit();
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem("token");
+    window.location.href = "/";
+  }
 
   return (
     <>
@@ -64,6 +114,15 @@ const Navbar = () => {
           <span className="d-none d-lg-block fs-4 text-muted pb-1">|</span>
           <div>
             <ul className="navbar-nav flex-row align-items-center">
+              {dataStore && dataAdmin.admin === "1" ? (
+                <li className="nav-item mx-2 mx-lg-0">
+                  <a href="/admin" className="nav-link">
+                    Admin
+                  </a>
+                </li>
+              ) : (
+                <></>
+              )}
               <li className="nav-item mx-2 mx-lg-0">
                 <a href="/menu" className="nav-link">
                   Menu
@@ -74,55 +133,81 @@ const Navbar = () => {
                   Order
                 </a>
               </li>
-              <li className="nav-item mx-2 mx-lg-0">
-                {/* <a href="/login" className="nav-link"> */}
-                <button
-                  className="btn btn-light fw-bold nav-link px-2"
-                  // ref={setReferenceElement}
-                  onClick={handlePopperLogin}
-                >
-                  Log In
-                </button>
-                <div
-                  className={`${isOpen ? "popper-visible" : "popper-none"} position-absolute`}
-                  // ref={setPopperElement}
-                  // style={styles.popper}
-                  // {...attributes.popper}
-                  style={{marginLeft:'-100px'}}
-                >
-                  <div className="d-flex flex-column text-center p-3 bg-light rounded-4 mt-2 shadow-lg">
-                    <input
-                      className="form-control my-1"
-                      type="text"
-                      name=""
-                      id=""
-                      placeholder="Username"
-                    />
-                    <input
-                      className="form-control my-1"
-                      type="password"
-                      name=""
-                      id=""
-                      placeholder="Password"
-                    />
-                    <button className="btn btn-primary my-1 fw-bold">
+              {dataStore ? (
+                <>
+                  <li className="nav-item mx-2 mx-lg-0">
+                    <span className="mx-2">{dataAdmin.username}</span>
+                  </li>
+                  <li className="nav-item mx-2 mx-lg-0">
+                    <button
+                      className="btn btn-danger text-white fw-bold register py-0"
+                      onClick={logout}
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item mx-2 mx-lg-0">
+                    <button
+                      className="btn btn-light fw-bold nav-link px-2 py-0"
+                      onClick={handlePopperLogin}
+                    >
                       Log In
                     </button>
-                    <a href="/" className="text-decoration-none my-1">
-                      Forgotten Password?
+                    <div
+                      className={`${
+                        isOpen ? "popper-visible" : "popper-none"
+                      } position-absolute`}
+                      style={{ marginLeft: "-100px" }}
+                    >
+                      <div className="d-flex flex-column text-center p-3 bg-light rounded-4 mt-2 shadow-lg">
+                        <Input
+                          className="form-control my-1"
+                          type="text"
+                          name="username"
+                          placeholder="Username"
+                          value={formik.values.username}
+                          onChange={formik.handleChange}
+                          invalid={
+                            formik.touched.username &&
+                            Boolean(formik.errors.username)
+                          }
+                        />
+                        <Input
+                          className="form-control my-1"
+                          type="password"
+                          name="password"
+                          placeholder="Password"
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          invalid={
+                            formik.touched.username &&
+                            Boolean(formik.errors.username)
+                          }
+                        />
+                        <button
+                          className="btn btn-primary my-1 fw-bold"
+                          onClick={checkLogin}
+                        >
+                          Log In
+                        </button>
+                        <a href="/" className="text-decoration-none my-1">
+                          Forgotten Password?
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                  <li className="nav-item mx-2 mx-lg-0">
+                    <a href="/register" className="nav-link">
+                      <button className="btn btn-info text-white fw-bold register py-0">
+                        Register
+                      </button>
                     </a>
-                  </div>
-                  {/* <div ref={setArrowElement} style={styles.arrow} /> */}
-                </div>
-                {/* </a> */}
-              </li>
-              <li className="nav-item mx-2 mx-lg-0">
-                <a href="/register" className="nav-link">
-                  <button className="btn btn-info text-white fw-bold register py-2">
-                    Register
-                  </button>
-                </a>
-              </li>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

@@ -1,7 +1,13 @@
 import "./App.css";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import "./components/css/styles.css";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
@@ -13,6 +19,8 @@ import ListMenu from "./components/home/listmenu";
 import FavoriteMenu from "./components/home/favoritesmenu";
 import NotFound from "./components/notfound";
 import Orders from "./components/orders/orders";
+import AListMenu from "./components/admin/listmenu";
+import { decodeToken } from "react-jwt";
 
 const HomePage = () => {
   return (
@@ -20,6 +28,31 @@ const HomePage = () => {
       <Navbar />
       <Header />
       <FavoriteMenu />
+      <Footer />
+    </>
+  );
+};
+
+const AdminRoute = () => {
+  const isAuth = sessionStorage.getItem("token");
+  const isReal = decodeToken(isAuth);
+
+  if (isAuth && isReal.admin === "1") {
+    return (
+      <>
+        <Outlet />
+      </>
+    );
+  } else {
+    return <Navigate to="/" />;
+  }
+};
+
+const AdminPage = () => {
+  return (
+    <>
+      <Navbar />
+      <AListMenu />
       <Footer />
     </>
   );
@@ -92,6 +125,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
+          <Route element={<AdminRoute />}>
+            <Route index path="admin" element={<AdminPage />} />
+          </Route>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/orders" element={<OrdersPage />} />
