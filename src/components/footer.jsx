@@ -68,7 +68,7 @@ const Footer = () => {
                 <div className="mb-1">
                   <span>Subscribe for Our Updates!</span>
                 </div>
-                <div>
+                <div className="input-group">
                   <input
                     type="email"
                     name=""
@@ -76,6 +76,7 @@ const Footer = () => {
                     className="form-control"
                     placeholder="Enter your email address"
                   />
+                  <button className="btn btn-outline-secondary">SUBSCRIBE</button>
                 </div>
               </div>
             </div>

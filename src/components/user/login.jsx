@@ -9,14 +9,14 @@ import { decodeToken } from "react-jwt";
 
 const Login = () => {
   const validationLogin = yup.object().shape({
-    username: yup.string().required(),
-    password: yup.string().required(),
+    user_name: yup.string().required(),
+    user_password: yup.string().required(),
   });
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
+      user_name: "",
+      user_password: "",
     },
     validationSchema: validationLogin,
     onSubmit: () => handleLogin(),
@@ -46,7 +46,7 @@ const Login = () => {
   }
 
   function checkLogin() {
-    if (formik.values.username === "" || formik.values.password === "") {
+    if (formik.values.user_name === "" || formik.values.user_password === "") {
       alert("Please enter your username or password.");
     } else {
       formik.handleSubmit();
@@ -81,23 +81,23 @@ const Login = () => {
                 <Input
                   className="form-control my-1"
                   type="text"
-                  name="username"
+                  name="user_name"
                   placeholder="Username"
-                  value={formik.values.username}
+                  value={formik.values.user_name}
                   onChange={formik.handleChange}
                   invalid={
-                    formik.touched.username && Boolean(formik.errors.username)
+                    formik.touched.user_name && Boolean(formik.errors.user_name)
                   }
                 />
                 <Input
                   className="form-control my-1"
                   type="password"
-                  name="password"
+                  name="user_password"
                   placeholder="Password"
-                  value={formik.values.password}
+                  value={formik.values.user_password}
                   onChange={formik.handleChange}
                   invalid={
-                    formik.touched.username && Boolean(formik.errors.username)
+                    formik.touched.user_password && Boolean(formik.errors.user_password)
                   }
                 />
                 <button
@@ -107,7 +107,7 @@ const Login = () => {
                   Log In
                 </button>
                 <a href="/" className="text-decoration-none my-1">
-                  Forgotten Password?
+                  Forgotten password?
                 </a>
               </div>
             </div>

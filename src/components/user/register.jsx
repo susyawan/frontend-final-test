@@ -10,18 +10,20 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const validationRegister = yup.object().shape({
-    username: yup.string().required(),
-    email: yup.string().email().required(),
-    address: yup.string().required(),
-    password: yup.string().required(),
+    user_name: yup.string().required(),
+    user_email: yup.string().email().required(),
+    user_address: yup.string().required(),
+    user_password: yup.string().required(),
+    user_phone: yup.string().required(),
   });
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      email: "",
-      address: "",
-      password: "",
+      user_name: "",
+      user_email: "",
+      user_address: "",
+      user_password: "",
+      user_phone: "",
     },
     validationSchema: validationRegister,
     onSubmit: () => handleRegister(),
@@ -29,17 +31,17 @@ const Register = () => {
 
   async function handleRegister() {
     await request
-      .post(`/user/register`, formik.values)
-      .then((data) => alert("Register Successfully"))
+      .post(`/api/user`, formik.values)
+      .then(() => alert("Register Successfully"))
       .catch((err) => alert(err));
-
+    
     window.location.href = "/";
   }
 
   function checkCP() {
     if (confirmPassword === "") {
       return false;
-    } else if (confirmPassword === formik.values.password) {
+    } else if (confirmPassword === formik.values.user_password) {
       return false;
     } else {
       return true;
@@ -47,7 +49,7 @@ const Register = () => {
   }
 
   function lastCheckRegister() {
-    if (confirmPassword !== formik.values.password) {
+    if (confirmPassword !== formik.values.user_password) {
       alert("confirm password not match");
     } else {
       formik.handleSubmit();
@@ -75,33 +77,33 @@ const Register = () => {
                     className="form-control my-1"
                     type="text"
                     placeholder="Username"
-                    name="username"
-                    value={formik.values.username}
+                    name="user_name"
+                    value={formik.values.user_name}
                     onChange={formik.handleChange}
                     invalid={
-                      formik.touched.username && Boolean(formik.errors.username)
+                      formik.touched.user_name && Boolean(formik.errors.user_name)
                     }
                   />
                   <Input
                     className="form-control my-1"
                     type="email"
                     placeholder="Email"
-                    name="email"
-                    value={formik.values.email}
+                    name="user_email"
+                    value={formik.values.user_email}
                     onChange={formik.handleChange}
                     invalid={
-                      formik.touched.email && Boolean(formik.errors.email)
+                      formik.touched.user_email && Boolean(formik.errors.user_email)
                     }
                   />
                   <Input
                     className="form-control my-1"
                     type="password"
                     placeholder="Password"
-                    name="password"
-                    value={formik.values.password}
+                    name="user_password"
+                    value={formik.values.user_password}
                     onChange={formik.handleChange}
                     invalid={
-                      formik.touched.password && Boolean(formik.errors.password)
+                      formik.touched.user_password && Boolean(formik.errors.user_password)
                     }
                   />
                   <Input
@@ -116,12 +118,28 @@ const Register = () => {
                     className="form-control my-1"
                     type="text"
                     placeholder="Address"
-                    name="address"
-                    value={formik.values.address}
+                    name="user_address"
+                    value={formik.values.user_address}
                     onChange={formik.handleChange}
                     invalid={
-                      formik.touched.address && Boolean(formik.errors.address)
+                      formik.touched.user_address && Boolean(formik.errors.user_address)
                     }
+                  />
+                  <Input
+                    className="form-control my-1"
+                    type="text"
+                    placeholder="Phone"
+                    name="user_phone"
+                    value={formik.values.user_phone}
+                    onChange={formik.handleChange}
+                    invalid={
+                      formik.touched.user_phone && Boolean(formik.errors.user_phone)
+                    }
+                    onKeyPress={(event) => {
+                      if (!/[0-9]/.test(event.key)) {
+                        event.preventDefault();
+                      }
+                    }}
                   />
                 </form>
                 <button

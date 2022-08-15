@@ -1,16 +1,22 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/styles.css";
-import {BiRocket} from 'react-icons/bi'
-import {IoLeafOutline} from 'react-icons/io5'
+import { BiRocket } from "react-icons/bi";
+import { IoLeafOutline } from "react-icons/io5";
 
 const Header = () => {
   return (
     <>
+      <img
+        src={require("./images/blog-1.jpg")}
+        alt="about"
+        className="position-absolute w-100"
+        style={{ zIndex: "-1", objectFit: "cover" }}
+      />
       <div className="container-fluid h-100">
         <div className="container" style={{ height: "40rem" }}>
           <div className="row row-cols-auto h-100 my-5">
-            <div className="col-12 col-lg-6 d-flex ps-lg-5 flex-column justify-content-center">
+            <div className="col-12 col-lg-6 d-flex ps-lg-5 flex-column justify-content-center text-white">
               <h1>We Made Delicious Food</h1>
               <span>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
@@ -18,7 +24,10 @@ const Header = () => {
                 tenetur facere odio magni doloribus quo quis sequi a ea quam
                 ratione labore.
               </span>
-              <button className="btn btn-danger my-1 fw-bold w-25 my-3">
+              <button
+                className="btn btn-danger my-1 fw-bold w-25 my-3"
+                onClick={() => (window.location.href = "/menu")}
+              >
                 Menu
               </button>
             </div>
@@ -26,11 +35,15 @@ const Header = () => {
             <div className="col-12 d-flex justify-content-center align-items-center">
               <ul className="list-group list-group-horizontal">
                 <li className="list-group-item d-flex flex-column justify-content-center align-items-center borderless">
-                  <span><BiRocket size='3em'/></span>
+                  <span>
+                    <BiRocket size="3em" />
+                  </span>
                   <span>Fast Delivery</span>
                 </li>
                 <li className="list-group-item d-flex flex-column justify-content-center align-items-center borderless">
-                  <span><IoLeafOutline size='3em'/></span>
+                  <span>
+                    <IoLeafOutline size="3em" />
+                  </span>
                   <span>Fresh Food</span>
                 </li>
               </ul>
