@@ -13,6 +13,7 @@ const FormControlAddUpdate = ({
   const [menuName, setMenuName] = useState("");
   const [price, setPrice] = useState("");
   const [imgUrl, setImgUrl] = useState("");
+  const [desc, setDesc] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,9 +47,10 @@ const FormControlAddUpdate = ({
 
   useEffect(() => {
     if (type === "Update") {
-      setMenuName(formEditable.menuname);
-      setPrice(formEditable.price);
-      setImgUrl(formEditable.imgurl);
+      setMenuName(formEditable.food_name);
+      setPrice(formEditable.food_price);
+      setDesc(formEditable.food_desc);
+      setImgUrl(formEditable.food_src);
     }
   }, [type, formEditable]);
 
@@ -79,6 +81,16 @@ const FormControlAddUpdate = ({
                   event.preventDefault();
                 }
               }}
+            />
+          </div>
+          <div className="input-group py-2">
+            <div className="input-group-text w-25 justify-content-end">
+              Description :
+            </div>
+            <input
+              value={desc}
+              placeholder="Description"
+              onChange={(e) => setDesc(e.target.value)}
             />
           </div>
           <div className="input-group py-2">
@@ -116,9 +128,13 @@ const FormControlDelete = ({
   const handleDelete = async (e) => {
     e.preventDefault();
     await request
-      .delete(`/menus/${formEditable.id}`, formEditable.id, {
-        params: formEditable.id,
-      })
+      .delete(
+        `/api/food/delete/${formEditable.food_name}`,
+        formEditable.food_name,
+        {
+          params: formEditable.food_name,
+        }
+      )
       .then(() => fetchData())
       .catch((err) => console.log(err));
     setFormVisible(false);
@@ -126,7 +142,7 @@ const FormControlDelete = ({
 
   useEffect(() => {
     if (type === "Delete") {
-      setMenus(formEditable.menuname);
+      setMenus(formEditable.food_name);
     }
   }, [type, formEditable]);
 

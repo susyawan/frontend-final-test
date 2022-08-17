@@ -20,6 +20,7 @@ import FavoriteMenu from "./components/home/favoritesmenu";
 import NotFound from "./components/notfound";
 import Orders from "./components/orders/orders";
 import AListMenu from "./components/admin/listmenu";
+import About from "./components/about";
 import { decodeToken } from "react-jwt";
 
 const HomePage = () => {
@@ -57,6 +58,14 @@ const AdminPage = () => {
     </>
   );
 };
+
+const AboutPage = () => {
+  return (<>
+  <Navbar />
+  <About />
+  <Footer />
+  </>)
+}
 
 const MenuPage = () => {
   return (
@@ -125,6 +134,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route element={<AdminRoute />}>
             <Route index path="admin" element={<AdminPage />} />
           </Route>

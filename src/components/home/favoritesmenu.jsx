@@ -31,7 +31,7 @@ const FavoriteMenu = () => {
         <div className="container my-lg-0">
           <div className="row row-cols-auto my-lg-5 px-5 justify-content-center justify-content-lg-start align-items-start">
             <div className="col-12">
-              <h2 className="text-nowrap">Favorites Food</h2>
+              <h2 className="text-nowrap">Favorites Menu</h2>
             </div>
             <div className="col-12 my-4 my-lg-0">
               <div className="row row-cols-auto text-center">

@@ -3,52 +3,38 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/styles.css";
 import { BiRocket } from "react-icons/bi";
 import { IoLeafOutline } from "react-icons/io5";
+import { Carousel, CarouselItem, Button } from "react-bootstrap";
 
 const Header = () => {
+  const layar = {
+    height: "400px",
+    backgroundColor: "red",
+  };
   return (
     <>
-      <img
-        src={require("./images/blog-1.jpg")}
-        alt="about"
-        className="position-absolute w-100"
-        style={{ zIndex: "-1", objectFit: "cover" }}
-      />
-      <div className="container-fluid h-100">
-        <div className="container" style={{ height: "40rem" }}>
-          <div className="row row-cols-auto h-100 my-5">
-            <div className="col-12 col-lg-6 d-flex ps-lg-5 flex-column justify-content-center text-white">
-              <h1>We Made Delicious Food</h1>
-              <span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
-                beatae cumque voluptates pariatur nulla accusamus dicta, hic
-                tenetur facere odio magni doloribus quo quis sequi a ea quam
-                ratione labore.
-              </span>
-              <button
-                className="btn btn-danger my-1 fw-bold w-25 my-3"
-                onClick={() => (window.location.href = "/menu")}
-              >
-                Menu
-              </button>
-            </div>
-            <div className="col-lg-6 d-lg-block d-none"></div>
-            <div className="col-12 d-flex justify-content-center align-items-center">
-              <ul className="list-group list-group-horizontal">
-                <li className="list-group-item d-flex flex-column justify-content-center align-items-center borderless">
-                  <span>
-                    <BiRocket size="3em" />
-                  </span>
-                  <span>Fast Delivery</span>
-                </li>
-                <li className="list-group-item d-flex flex-column justify-content-center align-items-center borderless">
-                  <span>
-                    <IoLeafOutline size="3em" />
-                  </span>
-                  <span>Fresh Food</span>
-                </li>
-              </ul>
-            </div>
+      <div className="container-fluid p-0">
+        <div className="position-relative">
+          <div className="position-absolute tx-center">
+            <span style={{fontSize: "4rem"}} className="m-0 text-center">We Made Delicious Food</span>
+            <button
+              className="btn btn-danger my-1 fw-bold w-25 my-3"
+              onClick={() => (window.location.href = "/menu")}
+            >
+              Menu
+            </button>
           </div>
+          <Carousel>
+            <CarouselItem
+              interval={4000}
+              style={{ objectFit: "cover", zIndex: "-1" }}
+            >
+              <img
+                src={require("./images/blog-1.jpg")}
+                alt="about"
+                className="w-100"
+              />
+            </CarouselItem>
+          </Carousel>
         </div>
       </div>
     </>

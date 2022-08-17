@@ -62,7 +62,7 @@ const Register = () => {
         <div className="container d-flex justify-content-center align-items-center">
           <div className="row row-cols-auto">
             <div className="col-6 d-none d-lg-block col-lg-6 d-flex justify-content-center align-items-center">
-              <img src="" alt="ilustration-register" className="w-75 end-100" />
+              <img src={require('../home/images/nachos-img.png')} alt="ilustration-register" className="w-75 end-100" />
             </div>
             <div className="my-5 my-lg-0 col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center">
               <div className="line-up mb-1">

@@ -13,6 +13,16 @@ const Posts = ({ listFood, loading }) => {
       </>
     );
 
+  const isStorage = sessionStorage.getItem("token");
+
+  function returnAdd(item) {
+    alert(`Menu Add ${item.food_name}`);
+  }
+
+  function returnLogin() {
+    window.location.href = "/login";
+  }
+
   return (
     <div className="container p-0">
       <ul className="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 p-0">
@@ -35,9 +45,29 @@ const Posts = ({ listFood, loading }) => {
                   <h5>{item.food_name}</h5>
                   <span>Rp.{item.food_price}</span>
                 </div>
-                <div className="d-flex my-2">
-                  <button className="btn btn-warning btn-sm">Add</button>
-                </div>
+                {isStorage ? (
+                  <>
+                    <div className="d-flex my-2">
+                      <button
+                        className="btn btn-warning btn-sm"
+                        onClick={() => returnAdd(item)}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="d-flex my-2">
+                      <button
+                        className="btn btn-warning btn-sm"
+                        onClick={() => returnLogin()}
+                      >
+                        Login
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </li>

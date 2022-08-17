@@ -37,7 +37,7 @@ const AListMenu = () => {
 
   const fetchData = async () => {
     await request
-      .get("/menus")
+      .get("/api/food")
       .then(({ data }) => {
         setListMenu(data);
       })
@@ -60,10 +60,10 @@ const AListMenu = () => {
             <div className="col-12 d-flex justify-content-center">
               <h1>List Menu</h1>
             </div>
-            <div className="col-12 d-flex justify-content-center">
-              <Button onClick={handleAdd}>Add</Button>
+            <div className="col-12 d-flex justify-content-center my-2">
+              <Button onClick={handleAdd}>Add Menu</Button>
             </div>
-            <div className="col-12 d-flex justify-content-center">
+            <div className="col-12 d-flex justify-content-center my-2">
               <div className="col-6">
                 <Table striped bordered hover>
                   <thead>
@@ -71,6 +71,7 @@ const AListMenu = () => {
                       <th>#</th>
                       <th>Menu Name</th>
                       <th>Price</th>
+                      <th>desc</th>
                       <th>URL</th>
                       <th>Action</th>
                     </tr>
@@ -79,14 +80,15 @@ const AListMenu = () => {
                     {listMenu.map((item, index) => (
                       <tr key={index}>
                         <th>{index + 1}</th>
-                        <td>{item.menuname}</td>
-                        <td>{item.price}</td>
-                        <td>{item.imgurl}</td>
+                        <td>{item.food_name}</td>
+                        <td>{item.food_price}</td>
+                        <td>{item.food_desc}</td>
+                        <td>{item.food_src}</td>
                         <td>
                           <Button onClick={() => handleUpdate(item)}>
                             Update
                           </Button>
-                          <Button onClick={() => handleDelete(item)}>
+                          <Button onClick={() => handleDelete(item)} disabled>
                             Delete
                           </Button>
                         </td>
