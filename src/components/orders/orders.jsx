@@ -17,6 +17,7 @@ const Orders = () => {
   const dataStore = decodeToken(isStorage);
   const [formVisible, setFormVisible] = useState(false);
   const [updateAddress, setUpdateAddress] = useState("");
+  const [foodStore, setFoodStore] = useState([]);
 
   async function fetchUser() {
     if (isStorage) {
@@ -27,14 +28,21 @@ const Orders = () => {
         })
         .catch((err) => console.log(err));
 
-        const token = sessionStorage.getItem("getAddress")
-        const getAddress = decodeToken(token)
-        setAddressUser(getAddress.user_address)
+      const token = sessionStorage.getItem("getAddress");
+      const getAddress = decodeToken(token);
+      setAddressUser(getAddress.user_address);
     }
   }
 
   async function fetchOrder() {
     if (isStorage) {
+      await request
+        .get("/api/food/")
+        .then(({ data }) => {
+          setFoodStore(data);
+        })
+        .catch((err) => console.log(err));
+
       await request
         .get("/api/order")
         .then(({ data }) => {
@@ -57,45 +65,39 @@ const Orders = () => {
   }, []);
 
   async function handleMinus(data) {
-    const result = await request
+    await request
       .put(
-        `/order/update/${data.menuname}`,
-        { menuname: data.menuname, quantity: data.quantity - 1 },
-        { params: data.menuname }
+        `/api/order/update/${data.food_id}`,
+        { food_id: data.food_id, quantity: data.quantity - 1 },
+        { params: data.food_id }
       )
-      .then(() => {
-        return;
-      })
+      .then(() => fetchOrder())
       .catch((err) => console.log(err));
-    fetchOrder(result);
   }
 
   async function handlePlus(data) {
-    const result = await request
+    await request
       .put(
-        `/order/update/${data.menuname}`,
-        { menuname: data.menuname, quantity: data.quantity + 1 },
-        { params: data.menuname }
+        `/api/order/update/${data.food_id}`,
+        { food_id: data.food_id, quantity: data.quantity + 1 },
+        { params: data.food_id }
       )
-      .then(() => {
-        return;
-      })
+      .then(() => fetchOrder())
       .catch((err) => console.log(err));
-    fetchOrder(result);
   }
 
   async function handleDelete(data) {
     await request
       .delete(
-        `/order/delete/${data.menuname}`,
+        `/api/order/delete/${data.food_id}`,
         { data },
         {
-          params: data.menuname,
+          params: data.food_id,
         }
       )
       .then(() => fetchOrder())
       .catch((err) => console.log(err));
-    // window.location.reload();
+    window.location.reload();
   }
 
   function handleShowChangeAddress() {
@@ -103,18 +105,18 @@ const Orders = () => {
   }
 
   async function handleChangeAddress() {
-    const result = await request
+    await request
       .put(
-        `/user/${dataStore.username}`,
+        `/api/user/${dataStore.user_name}`,
         {
-          username: dataStore.username,
-          address: updateAddress,
+          user_name: dataStore.user_name,
+          user_address: updateAddress,
         },
-        { params: dataStore.username }
+        { params: dataStore.user_name }
       )
-      .then(({ data }) => console.log(data))
+      .then(() => fetchUser())
       .catch((err) => console.log(err));
-    fetchUser(result);
+
     setFormVisible(!formVisible);
     window.location.reload();
   }
@@ -128,8 +130,6 @@ const Orders = () => {
 
     return total;
   }
-  // setTotalPriceOrder(totalPrice);
-  // console.log(totalPriceOrder);
 
   return (
     <>
@@ -167,7 +167,7 @@ const Orders = () => {
                     {listOrder.map((item, index) => (
                       <div key={index} className="my-3">
                         <div className="d-flex justify-content-between align-items-center">
-                          <h4>{item.menuname}</h4>
+                          <h4>{foodStore[item.food_id - 1].food_name}</h4>
                           <button
                             className="btn btn-warning btn-sm"
                             onClick={() => handleDelete(item)}
@@ -180,8 +180,7 @@ const Orders = () => {
                             <button
                               onClick={() =>
                                 handleMinus({
-                                  id: item.id,
-                                  menuname: item.menuname,
+                                  food_id: item.food_id,
                                   quantity: item.quantity,
                                 })
                               }
@@ -197,8 +196,7 @@ const Orders = () => {
                             <button
                               onClick={() =>
                                 handlePlus({
-                                  id: item.id,
-                                  menuname: item.menuname,
+                                  food_id: item.food_id,
                                   quantity: item.quantity,
                                 })
                               }
@@ -206,10 +204,10 @@ const Orders = () => {
                             >
                               +
                             </button>
-                            <div>@Rp.{item.price}</div>
+                            <div>@Rp.{foodStore[item.food_id - 1].food_price}</div>
                           </div>
                           <div>
-                            Cost: <b>Rp.{item.price * item.quantity}</b>
+                            Cost: <b>Rp.{foodStore[item.food_id - 1].food_price * item.quantity}</b>
                           </div>
                         </div>
                       </div>

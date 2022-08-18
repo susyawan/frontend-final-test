@@ -14,9 +14,63 @@ const Posts = ({ listFood, loading }) => {
     );
 
   const isStorage = sessionStorage.getItem("token");
+  const dataStore = decodeToken(isStorage);
 
-  function returnAdd(item) {
-    alert(`Menu Add ${item.food_name}`);
+  async function returnAdd(item) {
+    const isAble = await request
+      .put(
+        `/api/order/single/${item.id}`,
+        { food_id: item.id },
+        { params: { food_id: item.id } }
+      )
+      .then(({ message }) => {
+        console.log(message)
+        return message;
+      })
+      .catch((err) => console.log(err));
+    console.log("item:", item.id);
+    console.log("stats:", isAble);
+
+    // for (let i = 0; i < isStore.length; i++) {
+    //   console.log(i, isStore[i].food_id);
+    //   if (isStore[i].food_id === item.id.toString()) {
+    //     console.log(`/api/order/update/${item.id}`);
+    //     await request
+    //       .post(
+    //         `/api/order/update/${item.id}`,
+    //         {
+    //           quantity: isStore[i].quantity + 1,
+    //         },
+    //         { params: { food_id: item.id } }
+    //       )
+    //       .then(() => {
+    //         if (window.location.href.indexOf("orders") > -1) {
+    //           alert(`Menu Add ${item.food_name}`);
+    //           // window.location.reload();
+    //         } else {
+    //           alert(`Menu Add ${item.food_name}`);
+    //         }
+    //       })
+    //       .catch((err) => console.log(err));
+    //     return;
+    //   }
+    // }
+
+    // await request
+    //   .post("/api/order/add", {
+    //     user_id: dataStore.id,
+    //     food_id: item.id,
+    //     quantity: 1,
+    //   })
+    //   .then(() => {
+    //     if (window.location.href.indexOf("orders") > -1) {
+    //       alert(`Menu Add ${item.food_name}`);
+    //       // window.location.reload();
+    //     } else {
+    //       alert(`Menu Add ${item.food_name}`);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
   }
 
   function returnLogin() {
