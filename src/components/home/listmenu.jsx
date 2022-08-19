@@ -23,13 +23,61 @@ const Posts = ({ listFood, loading }) => {
         { food_id: item.id },
         { params: { food_id: item.id } }
       )
-      .then(({ message }) => {
-        console.log(message)
-        return message;
+      .then((res) => {
+        console.log(res);
+        return res;
       })
       .catch((err) => console.log(err));
     console.log("item:", item.id);
     console.log("stats:", isAble);
+    console.log("stats:", isAble.data);
+    const { quantity } = isAble.data;
+
+    if (isAble.message === "duplicate") {
+      console.log("duplicate");
+      await request
+        .put(
+          `/api/order/update/${item.id}`,
+          {
+            food_id: item.id,
+            quantity: quantity + 1,
+          },
+          {
+            params: {
+              food_id: item.id,
+            },
+          }
+        )
+        .then(() => {
+          if (window.location.href.indexOf("orders") > -1) {
+            alert(`Menu Add ${item.food_name}`);
+            window.location.reload();
+          } else {
+            alert(`Menu Add ${item.food_name}`);
+          }
+        })
+        .catch((err) => console.log(err));
+      return;
+    }
+
+    if (isAble.message === "null") {
+      await request
+        .post(`/api/order/add`, {
+          user_id: dataStore.id,
+          food_id: item.id,
+          quantity: 1,
+        })
+        .then(() => {
+          if (window.location.href.indexOf("orders") > -1) {
+            alert(`Menu Add ${item.food_name}`);
+            // window.location.reload();
+          } else {
+            alert(`Menu Add ${item.food_name}`);
+          }
+        })
+        .catch((err) => console.log(err));
+      return;
+    }
 
     // for (let i = 0; i < isStore.length; i++) {
     //   console.log(i, isStore[i].food_id);

@@ -165,49 +165,67 @@ const Orders = () => {
                   <hr />
                   <div>
                     {listOrder.map((item, index) => (
-                      <div key={index} className="my-3">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <h4>{foodStore[item.food_id - 1].food_name}</h4>
-                          <button
-                            className="btn btn-warning btn-sm"
-                            onClick={() => handleDelete(item)}
-                          >
-                            Remove
-                          </button>
+                      <div key={index} className="d-flex flex-lg-column justify-content-between my-3 gap-2">
+                        <div>
+                          <img
+                            src={require(`../home/images/${
+                              foodStore[item.food_id - 1].food_src
+                            }`)}
+                            alt={foodStore[item.food_id - 1].food_name}
+                            style={{maxWidth: '200px'}}
+                          />
                         </div>
-                        <div className="d-flex justify-content-between align-items-center gap-3">
-                          <div className="d-flex align-items-center gap-3">
+                        <div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <h4>{foodStore[item.food_id - 1].food_name}</h4>
                             <button
-                              onClick={() =>
-                                handleMinus({
-                                  food_id: item.food_id,
-                                  quantity: item.quantity,
-                                })
-                              }
-                              className={`btn btn-warning btn-sm ${
-                                item.quantity === 1 ? "disabled" : null
-                              }`}
-                            >
-                              -
-                            </button>
-                            <span>
-                              <b>{item.quantity}</b>
-                            </span>
-                            <button
-                              onClick={() =>
-                                handlePlus({
-                                  food_id: item.food_id,
-                                  quantity: item.quantity,
-                                })
-                              }
                               className="btn btn-warning btn-sm"
+                              onClick={() => handleDelete(item)}
                             >
-                              +
+                              Remove
                             </button>
-                            <div>@Rp.{foodStore[item.food_id - 1].food_price}</div>
                           </div>
-                          <div>
-                            Cost: <b>Rp.{foodStore[item.food_id - 1].food_price * item.quantity}</b>
+                          <div className="d-flex justify-content-between align-items-center gap-3">
+                            <div className="d-flex align-items-center gap-3">
+                              <button
+                                onClick={() =>
+                                  handleMinus({
+                                    food_id: item.food_id,
+                                    quantity: item.quantity,
+                                  })
+                                }
+                                className={`btn btn-warning btn-sm ${
+                                  item.quantity === 1 ? "disabled" : null
+                                }`}
+                              >
+                                -
+                              </button>
+                              <span>
+                                <b>{item.quantity}</b>
+                              </span>
+                              <button
+                                onClick={() =>
+                                  handlePlus({
+                                    food_id: item.food_id,
+                                    quantity: item.quantity,
+                                  })
+                                }
+                                className="btn btn-warning btn-sm"
+                              >
+                                +
+                              </button>
+                              <div>
+                                @Rp.{foodStore[item.food_id - 1].food_price}
+                              </div>
+                            </div>
+                            <div>
+                              Cost:{" "}
+                              <b>
+                                Rp.
+                                {foodStore[item.food_id - 1].food_price *
+                                  item.quantity}
+                              </b>
+                            </div>
                           </div>
                         </div>
                       </div>
