@@ -3,7 +3,7 @@ import axios from "axios";
 // const accessToken = sessionStorage.getItem("access_token");
 
 const request = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://restaurant-web-heroku.herokuapp.com",
   //   headers: { Authorization: accessToken },
 });
 
